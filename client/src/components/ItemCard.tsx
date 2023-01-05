@@ -21,7 +21,7 @@ const Item = ({ task, updateTasks }) => {
         }).then(() => updateTasks());
       };
 
-    return <Card variant="outlined">
+    return <Card raised>
         <CardContent>
             <Typography variant="h5">
                 {task.title}
