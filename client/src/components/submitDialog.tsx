@@ -1,29 +1,31 @@
 import { Dialog, DialogTitle, DialogContent, Box, TextField, Button } from "@mui/material"
-import React, { useState }  from "react";
+import React, { useState } from "react";
+
 
 const submitDialog = (props) => {
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [person, setPerson] = useState('');
+    const [name, setName] = useState('');
+    const [about, setAbout] = useState('');
+    const [contact, setContact] = useState('');
+    const [date, setDate] = useState("");
 
 
     const addItem = event => {
         event.preventDefault();
-    
-        fetch('/api/items/add', {
-          method: 'post',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            title: title,
-            description: description,
-            person: person,
-            status: "offer"
-          }),
+
+        fetch('/api/' + props.type + '/add', {
+            method: 'post',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                name: name,
+                about: about,
+                contact: contact,
+                date: date,
+            }),
         }).then(() => {
-          setTitle('');
-          props.handleClose();
+            setName('');
+            props.handleClose();
         });
-      };
+    };
 
     return <Dialog
         open={props.open}
@@ -31,7 +33,7 @@ const submitDialog = (props) => {
         maxWidth="sm"
         fullWidth
     >
-        <DialogTitle>Offer or Request an Item</DialogTitle>
+        <DialogTitle>Add {props.type}</DialogTitle>
         <DialogContent>
             <Box component={"form"} sx={{
                 display: 'flex',
@@ -40,28 +42,31 @@ const submitDialog = (props) => {
                 '& > :not(style)': { m: 1 }
             }}>
                 <TextField
-                    id="title"
-                    label="Title"
-                    variant="outlined"
-                    onChange={event => setTitle(event.target.value)}
-                    value={title}
-                />
-                <TextField
-                    id="description"
-                    label="Description"
-                    variant="outlined"
-                    multiline
-                    minRows={3}
-                    onChange={event => setDescription(event.target.value)}
-                    value={description}
-                />
-                <TextField
                     id="name"
                     label="Name"
                     variant="outlined"
-                    onChange={event => setPerson(event.target.value)}
-                    value={person}
+                    onChange={event => setName(event.target.value)}
+                    value={name}
                 />
+                <TextField
+                    id="about"
+                    label="About"
+                    variant="outlined"
+                    multiline
+                    minRows={3}
+                    onChange={event => setAbout(event.target.value)}
+                    value={about}
+                />
+                <TextField
+                    id="contact"
+                    label="Contact"
+                    variant="outlined"
+                    onChange={event => setContact(event.target.value)}
+                    value={contact}
+                />
+                <input type="datetime-local" id="meeting-time"
+                    name="meeting-time" value={date}
+                    onChange={e => setDate(e.target.value)}></input>
                 <Button variant="contained" onClick={addItem}>Submit</Button>
             </Box>
         </DialogContent>

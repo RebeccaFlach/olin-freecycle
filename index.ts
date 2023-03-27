@@ -5,13 +5,15 @@ import bodyParser from 'body-parser';
 const app = express();
 
 import routeTasks from './src/routes/tasks';
-import routeItems from './src/routes/items'
+import routeItems from './src/routes/items';
+import routeVolunteers from './src/routes/volunteers';
 
 app.use(express.static(path.join(__dirname, 'client/build')));
 app.use(bodyParser.json());
 
 app.use('/api/tasks', routeTasks, (req, res) => res.sendStatus(401));
 app.use('/api/items', routeItems, (req, res) => res.sendStatus(401));
+app.use('/api/volunteers', routeVolunteers, (req, res) => res.sendStatus(401));
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname + '/client/build/index.html'));
